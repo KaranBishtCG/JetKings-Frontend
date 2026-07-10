@@ -45,7 +45,7 @@ const stats = [
 const quickActions = [
   { label: 'Add Buyer', icon: MdPersonAddAlt1, active: false, path: '/buyers' },
   { label: 'Add Product', icon: MdAddBox, active: false, path: '/products' },
-  { label: 'Price Config', icon: MdTune, active: false, path: '/price-config' },
+  { label: 'Products', icon: MdTune, active: false, path: '/price-config' },
   { label: 'Generate Bill', icon: MdPointOfSale, active: true, path: '/generate-bill' },
 ]
 
@@ -86,73 +86,72 @@ function Home() {
   const navigate = useNavigate()
 
   return (
-    <div className="max-w-[1180px] mx-auto text-slate-900">
-      <section className="mb-5 flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-4xl md:text-[38px] leading-tight font-semibold tracking-tight">
-            Dashboard - Good Morning, Admin
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Here&apos;s what&apos;s happening with JetKings today.
-          </p>
-        </div>
-        
+    <div className="w-full max-w-[1180px] mx-auto text-slate-900 space-y-4 sm:space-y-5">
+
+      {/* Header */}
+      <section>
+        <h1 className="text-2xl sm:text-3xl md:text-[42px] leading-tight font-semibold tracking-tight">
+          Dashboard - Good Morning, Admin
+        </h1>
+        <p className="mt-1 text-sm font-semibold text-slate-500">
+          Here&apos;s what&apos;s happening with JetKings today.
+        </p>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Stats — flex-wrap: 2 per row on mobile, 4 on lg+ */}
+      <section className="flex flex-wrap gap-3 sm:gap-4">
         {stats.map(({ title, value, icon: Icon, iconBg, iconColor }) => (
           <article
             key={title}
-            className="rounded-xl border border-slate-200 bg-white px-5 py-5 shadow-sm"
+            className="flex-1 min-w-[calc(50%-6px)] lg:min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-sm"
           >
-            <div className="flex items-center gap-4">
-              <div
-                className={`h-12 w-12 rounded-full ${iconBg} ${iconColor} flex items-center justify-center`}
-              >
-                <Icon size={24} />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full ${iconBg} ${iconColor} flex items-center justify-center shrink-0`}>
+                <Icon size={22} />
               </div>
-              <div>
-                <p className="text-sm text-slate-500">{title}</p>
-                <p className="mt-1 text-3xl leading-none font-semibold tracking-tight">{value}</p>
+              <div className="min-w-0">
+                <p className="text-xs sm:text-sm text-slate-500 truncate">{title}</p>
+                <p className="mt-1 text-2xl sm:text-3xl leading-none font-semibold tracking-tight">{value}</p>
               </div>
             </div>
           </article>
         ))}
       </section>
 
-      <section className="mt-8 grid gap-5 xl:grid-cols-[1.35fr_2.65fr]">
-        <div>
-          <h2 className="mb-3 text-3xl leading-tight font-semibold tracking-tight">Quick Actions</h2>
+      {/* Quick Actions + Recent Activity */}
+      <section className="flex flex-col lg:flex-row gap-5">
 
-          <div className="grid grid-cols-2 gap-3">
+        {/* Quick Actions */}
+        <div className="w-full lg:w-72 shrink-0">
+          <h2 className="mb-3 text-xl sm:text-2xl leading-tight font-semibold tracking-tight">Quick Actions</h2>
+
+          <div className="flex flex-wrap gap-3">
             {quickActions.map(({ label, icon: Icon, active, path }) => (
               <button
                 key={label}
                 onClick={() => navigate(path)}
-                className={`rounded-xl border px-4 py-5 text-center shadow-sm transition-all
-                ${
-                  active
-                    ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                    : 'border-slate-300 bg-white text-slate-800 hover:border-blue-200 hover:bg-blue-50'
+                className={`flex-1 min-w-[calc(50%-6px)] rounded-xl border px-4 py-5 text-center shadow-sm transition-all
+                ${active
+                  ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
+                  : 'border-slate-300 bg-white text-slate-800 hover:border-blue-200 hover:bg-blue-50'
                 }`}
               >
-                <Icon size={24} className="mx-auto" />
+                <Icon size={32} className="mx-auto" />
                 <span className="mt-2 block text-sm font-normal">{label}</span>
               </button>
             ))}
           </div>
-
         </div>
 
-        <div>
+        <div className="flex-1 min-w-0">
           <div className="mb-3 flex items-center justify-between gap-4">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight">Recent Activity</h2>
-            <button className="text-sm font-semibold text-blue-600 hover:text-blue-700">View All</button>
+            <h2 className="text-xl sm:text-2xl leading-tight font-semibold tracking-tight">Recent Activity</h2>
+            <button className="shrink-0 text-sm font-semibold text-blue-600 hover:text-blue-700">View All</button>
           </div>
 
-          <div className="overflow-hidden rounded-xl border border-slate-300 bg-white shadow-sm">
+          <div className="rounded-xl border border-slate-300 bg-white shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px]">
+              <table className="w-full min-w-[520px]">
                 <thead>
                   <tr className="bg-slate-100 text-left text-sm font-semibold text-slate-600">
                     <th className="px-5 py-3">Date</th>
@@ -161,7 +160,6 @@ function Home() {
                     <th className="px-5 py-3">Status</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {recentActivity.map((item) => (
                     <tr key={`${item.buyerName}-${item.date}`} className="border-t border-slate-200">
@@ -169,13 +167,8 @@ function Home() {
                       <td className="px-5 py-4 text-[15px] font-normal text-slate-900">{item.buyerName}</td>
                       <td className="px-5 py-4 text-sm font-medium text-slate-900">{item.amount}</td>
                       <td className="px-5 py-4">
-                        <span
-                          className={`inline-block rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide
-                          ${
-                            item.status === 'SETTLED'
-                              ? 'bg-emerald-100 text-emerald-700'
-                              : 'bg-amber-100 text-amber-700'
-                          }`}
+                        <span className={`inline-block rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide
+                          ${item.status === 'SETTLED' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}
                         >
                           {item.status}
                         </span>
@@ -187,8 +180,8 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
 
+      </section>
     </div>
   )
 }

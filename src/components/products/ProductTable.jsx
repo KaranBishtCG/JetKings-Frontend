@@ -1,7 +1,7 @@
 import React from 'react'
 import { Eye, Package, Pencil, Trash2 } from 'lucide-react'
 
-const COLUMNS = ['Product Image', 'Product Name', 'Product Type', 'Default Price', 'Buyer Price', 'Actions']
+const COLUMNS = ['Product Image', 'Product Name', 'Default Price', 'Buyer Price', 'Actions']
 
 function formatCurrency(value) {
   return `\u20B9${value.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
@@ -73,10 +73,9 @@ function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoad
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-slate-50">
+          <tr className="bg-[#F1F5F9]">
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Product Image</th>
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Product Name</th>
-            <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Product Type</th>
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Default Price</th>
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-blue-600">Buyer Price</th>
             <th className="px-6 py-3 text-right text-xs font-bold uppercase tracking-wider text-slate-500">Actions</th>
@@ -97,14 +96,6 @@ function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoad
               <td className="px-6 py-4">
                 <p className="font-semibold text-slate-900">{product.name}</p>
                 <p className="mt-0.5 text-xs text-slate-400">{product.sku}</p>
-              </td>
-              <td className="px-6 py-4">
-                <span
-                  className="inline-block rounded-full px-3 py-1 text-xs font-bold"
-                  style={{ backgroundColor: product.typeColor.bg, color: product.typeColor.text }}
-                >
-                  {product.type}
-                </span>
               </td>
               <td className="px-6 py-4 text-slate-700">{formatCurrency(product.defaultPrice)}</td>
               <td className="px-6 py-4 font-semibold text-blue-600">{formatCurrency(product.buyerPrice)}</td>

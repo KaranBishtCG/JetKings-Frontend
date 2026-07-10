@@ -36,7 +36,7 @@ function Products() {
         </div>
         <button
           type="button"
-          className="inline-flex h-14 items-center justify-center gap-2 self-start rounded-xl bg-blue-600 px-7 font-semibold text-white transition-colors hover:bg-blue-700 md:self-auto"
+          className="shrink-0 flex items-center w-fit gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus size={20} />
           Add Product
@@ -44,7 +44,7 @@ function Products() {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
         <StatCard
           icon={PackageCheck}
           iconBg="#DBEAFE"
