@@ -141,6 +141,9 @@ function Home() {
               </button>
             ))}
           </div>
+          <div>
+            <img src="/Inventory2.png" alt="Inventory" className="mt-5 w-full h-[105px] rounded-xl " />
+          </div>
 
         </div>
 
