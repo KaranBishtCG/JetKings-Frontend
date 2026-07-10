@@ -21,9 +21,9 @@ function StatCard({ icon: Icon, iconBg, iconColor, label, value, isLoading }) {
       >
         <Icon size={22} />
       </div>
-      <div className="flex-1 text-left">
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{label}</p>
-        <p className="mt-1 text-3xl font-bold text-slate-900">{value}</p>
+      <div className="min-w-0">
+          <p className="text-xs sm:text-sm text-slate-500 truncate">{label}</p>
+          <p className="mt-1 text-2xl sm:text-3xl leading-none font-semibold tracking-tight">{value}</p>
       </div>
     </div>
   )

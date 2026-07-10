@@ -40,11 +40,11 @@ function BuyersStats() {
           key={label}
           className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3"
         >
-          <div className={`${iconBg} ${iconColor} p-2.5 rounded-lg shrink-0`}>{icon}</div>
-          <div>
-            <p className="text-xs text-gray-500">{label}</p>
-            <p className="text-xl font-bold text-gray-800">{value}</p>
-          </div>
+            <div className={`${iconBg} ${iconColor} p-2.5 rounded-lg shrink-0`}>{icon}</div>
+            <div className="min-w-0">
+                <p className="text-xs sm:text-sm text-slate-500 truncate">{label}</p>
+                <p className="mt-1 text-2xl sm:text-3xl leading-none font-semibold tracking-tight">{value}</p>
+            </div>
         </div>
       ))}
     </div>

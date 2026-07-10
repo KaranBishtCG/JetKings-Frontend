@@ -25,7 +25,7 @@ function Pagination({ page, totalPages, totalItems, pageSize, onPageChange }) {
   const pages = getPageNumbers(page, totalPages)
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 px-6 py-4">
+    <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 bg-[#F1F5F9] px-6 py-4">
       <p className="text-sm text-slate-500">
         Showing {start}-{end} of {totalItems.toLocaleString('en-IN')} products
       </p>
