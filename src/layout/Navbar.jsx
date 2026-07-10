@@ -3,7 +3,7 @@ import { MdNotifications, MdSettings, MdMenu } from 'react-icons/md'
 
 function Navbar({ onToggle }) {
   return (
-    <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-black/10">
+    <header className="flex items-center justify-between px-4 py-2 bg-white border-b border-black/10">
       {/* Hamburger — visible on mobile only */}
       <button
         onClick={onToggle}

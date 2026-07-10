@@ -6,6 +6,7 @@ import Buyers from './pages/Buyers';
 import Categories from './pages/Categories';
 import PriceConfig from './pages/PriceConfig';
 import Products from './pages/Products';
+import GenerateBill from './pages/GenerateBill';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/categories" element={<Categories/>} />
         <Route path="/products" element={<Products/>} />
         <Route path="/price-config" element={<PriceConfig/>} />
+        <Route path="/generate-bill" element={<GenerateBill/>} />
       </Route>
     </Routes>
   )

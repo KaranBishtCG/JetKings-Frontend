@@ -17,7 +17,7 @@ function Layout() {
 
       <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex bg-[#F8F9FF] flex-col flex-1 overflow-hidden">
         <Navbar onToggle={() => setIsOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto p-4">
           <Outlet />
