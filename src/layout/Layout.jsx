@@ -1,13 +1,21 @@
 import React from 'react'
 import Navbar from './Navbar'
+import Sidebar from '../components/Sidebar'
 import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
-    <div>
+    <div className="flex w-full min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main content */}
+      <div className="flex flex-col flex-1 overflow-hidden">
         <Navbar />
-        <Outlet />
-        <Footer />
+        <main className="flex-1 overflow-y-auto p-6">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }
