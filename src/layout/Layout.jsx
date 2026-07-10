@@ -7,7 +7,7 @@ function Layout() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="flex w-full min-h-screen bg-white">
+    <div className="flex w-full h-screen overflow-hidden bg-white">
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/40 md:hidden"
@@ -19,7 +19,7 @@ function Layout() {
 
       <div className="flex bg-[#F8F9FF] flex-col flex-1 overflow-hidden">
         <Navbar onToggle={() => setIsOpen((prev) => !prev)} />
-        <main className="flex-1 overflow-y-auto p-4">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
           <Outlet />
         </main>
       </div>

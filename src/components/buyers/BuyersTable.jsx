@@ -5,7 +5,7 @@ function BuyersTable({ buyers, onView, onEdit, onDelete }) {
   return (
     <div className="bg-white shadow-sm border border-gray-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[640px] text-sm">
           <thead>
             <tr className="bg-[#F1F5F9] border-b border-gray-100 rounded-t-lg">
               <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">

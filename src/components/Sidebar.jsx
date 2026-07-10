@@ -10,6 +10,7 @@ import {
   MdLogout,
 } from 'react-icons/md'
 import { RiFlightTakeoffFill } from 'react-icons/ri'
+import logo from '../assets/Designer.png'
 
 const navItems = [
   { label: 'Dashboard', icon: <MdDashboard size={20} />, path: '/' },
@@ -24,14 +25,15 @@ function Sidebar({ isOpen, onClose }) {
   return (
     <aside
       className={`
-        flex flex-col w-56 min-h-screen bg-[#1a2340] text-white shrink-0
+        flex flex-col w-56 h-full bg-[#1a2340] text-white shrink-0
         fixed inset-y-0 left-0 z-40 transition-transform duration-300
         md:relative md:translate-x-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
       {/* Brand */}
-      <div className="flex items-center gap-2 px-5 py-[5px]">
+      <div className="flex items-center gap-2 px-2 py-[5px]">
+        <img src={logo} alt="Logo" className="w-14 h-14 bg-white" />
         <div className="leading-tight">
           <p className="font-bold text-base text-4xl tracking-wide">JetKings Sanitary</p>
           <p className="text-[12px] text-white/50">GST Billing Solution</p>

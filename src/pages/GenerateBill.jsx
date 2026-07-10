@@ -30,7 +30,7 @@ const productCards = [
 function GenerateBill() {
   return (
     <div className="mx-auto max-w-[1180px] text-slate-800">
-      <section className="mb-4 flex items-start justify-between gap-4">
+      <section className="mb-4 flex flex-col sm:flex-row items-start justify-between gap-3">
         <div>
           <h1 className="text-[40px] leading-[1] font-semibold tracking-tight text-slate-800">Generate Bill</h1>
           <p className="mt-1 text-sm text-slate-500">Step-by-step invoice generation workflow.</p>
@@ -42,7 +42,7 @@ function GenerateBill() {
         </div>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[2.4fr_1.15fr]">
+      <section className="grid gap-4 lg:grid-cols-[2.4fr_1.15fr]">
         <div className="space-y-4">
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
