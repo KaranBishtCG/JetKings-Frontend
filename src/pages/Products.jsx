@@ -51,7 +51,6 @@ function Products() {
           iconColor="#2563EB"
           label="Total Products"
           value="1,284"
-          badge={{ text: '+12%', bg: '#DBEAFE', color: '#2563EB' }}
         />
         <StatCard icon={Boxes} iconBg="#EDE9FE" iconColor="#7C3AED" label="Active Categories" value="14" />
         <StatCard icon={TriangleAlert} iconBg="#FEE2E2" iconColor="#DC2626" label="Low Stock Alert" value="28" />
