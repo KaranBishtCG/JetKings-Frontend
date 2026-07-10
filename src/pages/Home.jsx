@@ -45,7 +45,6 @@ const stats = [
 const quickActions = [
   { label: 'Add Buyer', icon: MdPersonAddAlt1, active: false, path: '/buyers' },
   { label: 'Add Product', icon: MdAddBox, active: false, path: '/products' },
-  { label: 'Products', icon: MdTune, active: false, path: '/price-config' },
   { label: 'Generate Bill', icon: MdPointOfSale, active: true, path: '/generate-bill' },
 ]
 
