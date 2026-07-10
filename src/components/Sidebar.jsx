@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   MdDashboard,
@@ -6,6 +6,7 @@ import {
   MdCategory,
   MdInventory2,
   MdSettings,
+  MdPointOfSale,
   MdLogout,
 } from 'react-icons/md'
 import { RiFlightTakeoffFill } from 'react-icons/ri'
@@ -16,6 +17,7 @@ const navItems = [
   { label: 'Categories',icon: <MdCategory size={20} />,  path: '/categories' },
   { label: 'Products',  icon: <MdInventory2 size={20} />,path: '/products' },
   { label: 'Price Config',icon:<MdSettings size={20} />, path: '/price-config' },
+  { label: 'Generate Bill',icon:<MdPointOfSale size={20} />, path: '/generate-bill' },
 ]
 
 function Sidebar() {

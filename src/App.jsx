@@ -8,6 +8,7 @@ import PriceConfig from './pages/PriceConfig';
 import Products from './pages/Products';
 import Login from './pages/Login';
 import Invoice from "./pages/Invoice";
+import GenerateBill from './pages/GenerateBill';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/products" element={<Products/>} />
         <Route path="/price-config" element={<PriceConfig/>} />
         <Route path="/invoice" element={<Invoice />} />
+        <Route path="/generate-bill" element={<GenerateBill/>} />
       </Route>
     </Routes>
   )
