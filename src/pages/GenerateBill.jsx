@@ -23,6 +23,7 @@ function GenerateBill() {
   const [selectedBuyer, setSelectedBuyer] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState(ALL_CATEGORY)
   const [downloading, setDownloading]     = useState(false)
+  const [isPrinting, setIsPrinting]       = useState(false)
 
   const invoiceRef = useRef(null)
 
@@ -81,8 +82,10 @@ function GenerateBill() {
     customer: {
       name: selectedBuyer?.partyName ?? '—',
       gstin: selectedBuyer?.gstin ?? '—',
-      address: [selectedBuyer?.billingAddress, selectedBuyer?.city, selectedBuyer?.state]
-        .filter(Boolean).join(', ') || '—',
+      address: selectedBuyer?.billingAddress || '—',
+      city: selectedBuyer?.city || '—',
+      state: selectedBuyer?.state || '—',
+      stateCode: selectedBuyer?.gstin?.slice(0, 2) || '—',
     },
     items: billItems.map((i) => ({
       name: i.name,
@@ -107,6 +110,16 @@ function GenerateBill() {
     }
   }
 
+  const handlePrint = () => {
+    setIsPrinting(true)
+    setTimeout(() => {
+      window.print()
+      const reset = () => { setIsPrinting(false); window.onafterprint = null }
+      window.onafterprint = reset
+      setTimeout(reset, 3000)   // fallback if onafterprint doesn't fire
+    }, 100)
+  }
+
   return (
     <div className="w-full max-w-[1180px] mx-auto text-slate-800">
       <BillHeader />
@@ -126,15 +139,21 @@ function GenerateBill() {
           <BillSummary
             subtotal={subtotal} gst={gst} total={total}
             selectedBuyer={selectedBuyer?.partyName ?? ''}
+            hasBuyer={!!selectedBuyer}
             onDownloadPdf={handleDownloadPdf}
             downloading={downloading}
+            onPrint={handlePrint}
           />
           <InvoicePreview billItems={billItems} selectedBuyer={selectedBuyer?.partyName ?? ''} subtotal={subtotal} gst={gst} total={total} />
         </aside>
       </div>
 
-      {/* Hidden invoice used for PDF capture */}
-      <div className="fixed -left-[9999px] top-0 w-[794px]" aria-hidden="true">
+      {/* Hidden invoice — shown for print, off-screen otherwise */}
+      <div
+        id="invoice-print-area"
+        className={isPrinting ? 'fixed inset-0 z-50 bg-white overflow-auto w-full' : 'fixed -left-[9999px] top-0 w-[794px]'}
+        aria-hidden={!isPrinting}
+      >
         <div ref={invoiceRef}>
           <InvoiceTemplate invoice={invoiceData} />
         </div>

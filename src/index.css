@@ -5,3 +5,9 @@
 @keyframes shimmer {
   100% { transform: translateX(100%); }
 }
+
+@media print {
+  body * { visibility: hidden; }
+  #invoice-print-area, #invoice-print-area * { visibility: visible; }
+  #invoice-print-area { position: fixed; left: 0; top: 0; width: 100%; background: white; }
+}
