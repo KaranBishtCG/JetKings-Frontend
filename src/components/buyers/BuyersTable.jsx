@@ -1,6 +1,25 @@
 import React from 'react'
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md'
 
+const AVATAR_COLORS = [
+  'bg-[#1a2340]', 'bg-teal-600', 'bg-purple-600', 'bg-gray-600',
+  'bg-orange-500', 'bg-blue-500', 'bg-rose-600', 'bg-indigo-600',
+  'bg-green-600', 'bg-yellow-600',
+]
+
+function getInitials(name = '') {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('')
+}
+
+function getAvatarColor(id) {
+  return AVATAR_COLORS[id % AVATAR_COLORS.length]
+}
+
 function BuyersTable({ buyers, onView, onEdit, onDelete }) {
   return (
     <div className="bg-white shadow-sm border border-gray-100 overflow-hidden">
@@ -32,25 +51,27 @@ function BuyersTable({ buyers, onView, onEdit, onDelete }) {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-9 h-9 rounded-full ${buyer.avatarBg} text-white flex items-center justify-center text-xs font-bold shrink-0`}
+                      className={`w-9 h-9 rounded-full ${getAvatarColor(buyer.id)} text-white flex items-center justify-center text-xs font-bold shrink-0`}
                     >
-                      {buyer.initials}
+                      {getInitials(buyer.partyName)}
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800 leading-tight">{buyer.name}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{buyer.type}</p>
+                      <p className="font-semibold text-gray-800 leading-tight">{buyer.partyName}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{buyer.email}</p>
                     </div>
                   </div>
                 </td>
 
                 {/* GST */}
-                <td className="px-4 py-3 text-gray-600 font-mono text-xs">{buyer.gst}</td>
+                <td className="px-4 py-3 text-gray-600 font-mono text-xs">{buyer.gstin}</td>
 
                 {/* Phone */}
-                <td className="px-4 py-3 text-gray-600">{buyer.phone}</td>
+                <td className="px-4 py-3 text-gray-600">{buyer.mobile}</td>
 
                 {/* Address */}
-                <td className="px-4 py-3 text-gray-600 max-w-[200px] truncate">{buyer.address}</td>
+                <td className="px-4 py-3 text-gray-600 max-w-[200px] truncate">
+                  {[buyer.billingAddress, buyer.city, buyer.state].filter(Boolean).join(', ')}
+                </td>
 
                 {/* Actions */}
                 <td className="px-4 py-3">

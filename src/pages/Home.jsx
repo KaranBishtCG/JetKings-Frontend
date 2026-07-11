@@ -7,6 +7,8 @@ import {
   fetchRecentActivities,
 } from '../state/slices/dashboardSlice'
 
+import { Skeleton, SkeletonTable } from '../components/common/Skeleton'
+
 import {
   MdPeopleAlt,
   MdInventory2,
@@ -85,14 +87,6 @@ function Home() {
     },
   ]
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <h2 className="text-xl font-semibold">Loading Dashboard...</h2>
-      </div>
-    )
-  }
-
   if (error) {
     return (
       <div className="p-6 text-red-600 font-medium">
@@ -116,32 +110,47 @@ function Home() {
 
       {/* Stats */}
       <section className="flex flex-wrap gap-3 sm:gap-4">
-        {stats.map(
-          ({ title, value, icon: Icon, iconBg, iconColor }) => (
-            <article
-              key={title}
-              className="flex-1 min-w-[calc(50%-6px)] lg:min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-sm"
-            >
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div
-                  className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full ${iconBg} ${iconColor} flex items-center justify-center shrink-0`}
+        {loading
+          ? Array.from({ length: 4 }).map((_, i) => (
+              <article
+                key={i}
+                className="flex-1 min-w-[calc(50%-6px)] lg:min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-sm"
+              >
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <Skeleton className="h-10 w-10 sm:h-12 sm:w-12 rounded-full shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="w-24 h-3 rounded" />
+                    <Skeleton className="w-16 h-6 rounded" />
+                  </div>
+                </div>
+              </article>
+            ))
+          : stats.map(
+              ({ title, value, icon: Icon, iconBg, iconColor }) => (
+                <article
+                  key={title}
+                  className="flex-1 min-w-[calc(50%-6px)] lg:min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-sm"
                 >
-                  <Icon size={22} />
-                </div>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div
+                      className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full ${iconBg} ${iconColor} flex items-center justify-center shrink-0`}
+                    >
+                      <Icon size={22} />
+                    </div>
 
-                <div className="min-w-0">
-                  <p className="text-xs sm:text-sm text-slate-500 truncate">
-                    {title}
-                  </p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-500 truncate">
+                        {title}
+                      </p>
 
-                  <p className="mt-1 text-2xl sm:text-3xl leading-none font-semibold tracking-tight">
-                    {value}
-                  </p>
-                </div>
-              </div>
-            </article>
-          )
-        )}
+                      <p className="mt-1 text-2xl sm:text-3xl leading-none font-semibold tracking-tight">
+                        {value}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              )
+            )}
       </section>
 
       {/* Quick Actions + Recent Activity */}
@@ -153,26 +162,36 @@ function Home() {
           </h2>
 
           <div className="flex flex-wrap gap-3">
-            {quickActions.map(
-              ({ label, icon: Icon, active, path }) => (
-                <button
-                  key={label}
-                  onClick={() => navigate(path)}
-                  className={`flex-1 min-w-[calc(50%-6px)] rounded-xl border px-4 py-5 text-center shadow-sm transition-all
-                  ${
-                    active
-                      ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                      : 'border-slate-300 bg-white text-slate-800 hover:border-blue-200 hover:bg-blue-50'
-                  }`}
-                >
-                  <Icon size={32} className="mx-auto" />
+            {loading
+              ? Array.from({ length: 3 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 min-w-[calc(50%-6px)] rounded-xl border border-slate-200 bg-white px-4 py-5 shadow-sm space-y-3"
+                  >
+                    <Skeleton className="w-8 h-8 rounded-lg mx-auto" />
+                    <Skeleton className="w-20 h-3 rounded mx-auto" />
+                  </div>
+                ))
+              : quickActions.map(
+                  ({ label, icon: Icon, active, path }) => (
+                    <button
+                      key={label}
+                      onClick={() => navigate(path)}
+                      className={`flex-1 min-w-[calc(50%-6px)] rounded-xl border px-4 py-5 text-center shadow-sm transition-all
+                      ${
+                        active
+                          ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
+                          : 'border-slate-300 bg-white text-slate-800 hover:border-blue-200 hover:bg-blue-50'
+                      }`}
+                    >
+                      <Icon size={32} className="mx-auto" />
 
-                  <span className="mt-2 block text-sm font-normal">
-                    {label}
-                  </span>
-                </button>
-              )
-            )}
+                      <span className="mt-2 block text-sm font-normal">
+                        {label}
+                      </span>
+                    </button>
+                  )
+                )}
           </div>
         </div>
 
@@ -202,7 +221,9 @@ function Home() {
                 </thead>
 
                 <tbody>
-                  {activities?.length > 0 ? (
+                  {loading ? (
+                    <SkeletonTable rows={5} cols={5} avatar={false} />
+                  ) : activities?.length > 0 ? (
                     activities.slice(0,5).map((item) => (
                       <tr
                         key={item.invoiceId}

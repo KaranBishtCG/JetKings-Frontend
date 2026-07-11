@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import ProductCard from './ProductCard'
+import { Skeleton } from '../common/Skeleton'
 import { PER_PAGE } from './billData'
 
-function ProductList({ products, billItems, onAdd }) {
+function ProductList({ products, productsLoading, billItems, onAdd }) {
   const [page, setPage] = useState(1)
 
   const totalPages = Math.max(1, Math.ceil(products.length / PER_PAGE))
@@ -25,14 +26,25 @@ function ProductList({ products, billItems, onAdd }) {
 
       {/* Cards — 2-per-row on mobile, vertical list on lg */}
       <div className="flex flex-wrap gap-3 lg:flex-col lg:flex-nowrap">
-        {paginated.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            inBill={billItems.find((i) => i.id === product.id)}
-            onAdd={onAdd}
-          />
-        ))}
+        {productsLoading
+          ? Array.from({ length: PER_PAGE }).map((_, i) => (
+              <div key={i} className="flex-1 min-w-[calc(50%-6px)] lg:flex-none lg:w-full flex overflow-hidden rounded-lg border border-slate-200">
+                <Skeleton className="h-24 lg:h-auto lg:w-36 shrink-0 rounded-none" />
+                <div className="flex-1 p-3 space-y-2">
+                  <Skeleton className="w-3/4 h-3.5 rounded" />
+                  <Skeleton className="w-full h-3 rounded" />
+                  <Skeleton className="w-1/2 h-3 rounded" />
+                </div>
+              </div>
+            ))
+          : paginated.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                inBill={billItems.find((i) => i.id === product.id)}
+                onAdd={onAdd}
+              />
+            ))}
       </div>
 
       {/* Pagination */}

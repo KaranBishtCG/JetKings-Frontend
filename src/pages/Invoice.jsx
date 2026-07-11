@@ -1,5 +1,5 @@
 import InvoiceTemplate from "../components/InvoiceTemplate";
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 import { useRef } from "react";
 
 export default function Invoice() {
