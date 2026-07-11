@@ -1,5 +1,5 @@
 import logo from '../assets/Designer.png'
-import signature from '../assets/signature.png'
+import signature from '/JetKings.jpg'
 
 const ones = [
   '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
@@ -163,7 +163,7 @@ export default function InvoiceTemplate({ invoice, showSignature = true }) {
         </div>
         <div className="p-3 flex flex-col items-center">
           <p className="font-bold text-blue-800 self-end mb-1">For {invoice.company.name}</p>
-          {showSignature && <img src={signature} alt="Signature" className="h-12 object-contain" />}
+          {showSignature && <img src={signature} alt="Signature" className="h-12 object-contain print:hidden" />}
           <p className="font-semibold mt-1">Authorised Signatory</p>
         </div>
       </div>
