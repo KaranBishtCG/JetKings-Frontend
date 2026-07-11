@@ -3,6 +3,7 @@ import { MdDownload, MdPrint, MdPerson } from 'react-icons/md'
 import { fmt } from './billData'
 
 function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, onPrintInvoice, downloading }) {
+  const disabledClass = 'opacity-40 cursor-not-allowed pointer-events-none'
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 px-4 py-3">

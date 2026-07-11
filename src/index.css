@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 @keyframes shimmer {
-  100% { transform: translateX(100%); }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .print-only {
@@ -24,6 +26,19 @@
     display: block;
     position: absolute;
     inset: 0;
+    width: 100%;
+    background: white;
+  }
+
+  #invoice-print-area,
+  #invoice-print-area * {
+    visibility: visible !important;
+  }
+
+  #invoice-print-area {
+    position: fixed;
+    left: 0;
+    top: 0;
     width: 100%;
     background: white;
   }
