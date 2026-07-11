@@ -193,7 +193,7 @@ function GenerateBill() {
   };
 
   const handleDownloadPdf = async () => {
-    if (!invoiceRef.current) return;
+    if (!selectedBuyer || !invoiceRef.current) return;
 
     setDownloading(true);
 
@@ -240,6 +240,7 @@ function GenerateBill() {
   };
 
   const handlePrintInvoice = () => {
+    if (!selectedBuyer) return;
     setPrinting(true);
 
     setTimeout(() => {

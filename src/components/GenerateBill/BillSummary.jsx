@@ -2,8 +2,9 @@ import React from 'react'
 import { MdDownload, MdPrint, MdPerson } from 'react-icons/md'
 import { fmt } from './billData'
 
-function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, onPrintInvoice, downloading }) {
-  const disabledClass = 'opacity-40 cursor-not-allowed pointer-events-none'
+function BillSummary({ subtotal, gst, total, selectedBuyer, hasBuyer, onDownloadPdf, onPrintInvoice, downloading }) {
+  const noBuyer = !hasBuyer
+  const disabledBtn = 'opacity-40 cursor-not-allowed pointer-events-none'
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 px-4 py-3">
@@ -39,17 +40,23 @@ function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, onPri
       <div className="flex flex-col gap-3 px-4 pb-4">
         <button
           onClick={onDownloadPdf}
-          disabled={downloading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          disabled={downloading || noBuyer}
+          className={`flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition-colors ${noBuyer || downloading ? disabledBtn : ''}`}
         >
           <MdDownload size={17} /> {downloading ? 'Generating PDF…' : 'Download PDF'}
         </button>
         <button
           onClick={onPrintInvoice}
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+          disabled={noBuyer}
+          className={`flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors ${noBuyer ? disabledBtn : ''}`}
         >
           <MdPrint size={17} /> Print Invoice
         </button>
+        {noBuyer && (
+          <p className="text-center text-xs text-amber-600 font-medium">
+            Select a buyer to enable download &amp; print
+          </p>
+        )}
       </div>
     </div>
   )
