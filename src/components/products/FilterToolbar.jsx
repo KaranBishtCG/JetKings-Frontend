@@ -66,7 +66,7 @@ function FilterToolbar({
   onPrint,
 }) {
   return (
-    <div className="flex min-h-[80px] flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-slate-50 px-6 py-4">
+    <div className="flex min-h-[80px] flex-wrap items-center justify-between gap-4 border-b border-slate-200 px-6 py-4 bg-[#F1F5F9]">
       <div className="flex flex-wrap items-center gap-6">
         <Dropdown icon={CategoryIcon} label="Filter By Category:" value={category} options={categories} onChange={onCategoryChange} />
         <Dropdown icon={PricingIcon} label="Pricing For:" value={pricing} options={pricingLists} onChange={onPricingChange} />
