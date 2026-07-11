@@ -1,20 +1,31 @@
 import React from 'react'
-import { Eye, Package, Pencil, Trash2 } from 'lucide-react'
-
-const COLUMNS = ['Product Image', 'Product Name', 'Default Price', 'Buyer Price', 'Actions']
+import { Package, Pencil, Trash2 } from 'lucide-react'
 
 function formatCurrency(value) {
-  return `\u20B9${value.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
+  return `\u20B9${Number(value || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
 }
 
-function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoading }) {
+function ProductTable({
+  products,
+  onView,
+  onEdit,
+  onDelete,
+  onAddProduct,
+  isLoading,
+  showActions = true,
+  showBuyerPrice = true,
+}) {
+  const columns = ['Product Image', 'Product Name', 'Default Price']
+  if (showBuyerPrice) columns.push('Buyer Price')
+  if (showActions) columns.push('Actions')
+
   if (isLoading) {
     return (
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-slate-50">
-              {COLUMNS.map((heading) => (
+              {columns.map((heading) => (
                 <th key={heading} className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
                   {heading}
                 </th>
@@ -34,15 +45,16 @@ function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoad
                 <td className="px-6 py-4">
                   <div className="h-6 w-28 rounded-full bg-slate-200" />
                 </td>
-                <td className="px-6 py-4">
-                  <div className="h-4 w-16 rounded bg-slate-200" />
-                </td>
-                <td className="px-6 py-4">
-                  <div className="h-4 w-16 rounded bg-slate-200" />
-                </td>
-                <td className="px-6 py-4">
-                  <div className="h-4 w-16 rounded bg-slate-200" />
-                </td>
+                {showBuyerPrice && (
+                  <td className="px-6 py-4">
+                    <div className="h-4 w-16 rounded bg-slate-200" />
+                  </td>
+                )}
+                {showActions && (
+                  <td className="px-6 py-4">
+                    <div className="h-4 w-16 rounded bg-slate-200" />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -77,8 +89,12 @@ function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoad
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Product Image</th>
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Product Name</th>
             <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Default Price</th>
-            <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-blue-600">Buyer Price</th>
-            <th className="px-6 py-3 text-right text-xs font-bold uppercase tracking-wider text-slate-500">Actions</th>
+            {showBuyerPrice && (
+              <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-blue-600">Buyer Price</th>
+            )}
+            {showActions && (
+              <th className="px-6 py-3 text-right text-xs font-bold uppercase tracking-wider text-slate-500">Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -98,35 +114,31 @@ function ProductTable({ products, onView, onEdit, onDelete, onAddProduct, isLoad
                 <p className="mt-0.5 text-xs text-slate-400">{product.sku}</p>
               </td>
               <td className="px-6 py-4 text-slate-700">{formatCurrency(product.defaultPrice)}</td>
-              <td className="px-6 py-4 font-semibold text-blue-600">{formatCurrency(product.buyerPrice)}</td>
-              <td className="px-6 py-4">
-                <div className="flex items-center justify-end gap-1">
-                  <button
-                    type="button"
-                    title="View Product"
-                    onClick={() => onView?.(product)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100"
-                  >
-                    <Eye size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    title="Edit Product"
-                    onClick={() => onEdit?.(product)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-blue-500 transition-colors hover:bg-blue-50"
-                  >
-                    <Pencil size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    title="Delete Product"
-                    onClick={() => onDelete?.(product)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </td>
+              {showBuyerPrice && (
+                <td className="px-6 py-4 font-semibold text-blue-600">{formatCurrency(product.buyerPrice)}</td>
+              )}
+              {showActions && (
+                <td className="px-6 py-4">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      type="button"
+                      title="Edit Product"
+                      onClick={() => onEdit?.(product)}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-blue-500 transition-colors hover:bg-blue-50"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      title="Delete Product"
+                      onClick={() => onDelete?.(product)}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

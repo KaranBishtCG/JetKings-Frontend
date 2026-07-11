@@ -1,7 +1,7 @@
 import logo from "../assets/Designer.png";
 import signature from "../assets/signature.png";
 
-export default function InvoiceTemplate({ invoice }) {
+export default function InvoiceTemplate({ invoice, showSignature = true }) {
   const subtotal = invoice.items.reduce(
     (sum, item) => sum + item.qty * item.price,
     0,
@@ -204,11 +204,13 @@ export default function InvoiceTemplate({ invoice }) {
             </div>
 
             <div className="text-center">
-              <img
-                src={signature}
-                alt="Authorized Signature"
-                className="h-16 mx-auto"
-              />
+                  {showSignature && (
+                    <img
+                      src={signature}
+                      alt="Authorized Signature"
+                      className="h-16 mx-auto"
+                    />
+                  )}
 
           <p className="font-semibold mt-2">
             For JetKings Sanitary

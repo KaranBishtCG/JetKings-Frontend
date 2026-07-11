@@ -15,7 +15,8 @@ import logo from '../assets/Designer.png'
 const navItems = [
   { label: 'Dashboard', icon: <MdDashboard size={20} />, path: '/' },
   { label: 'Buyers',    icon: <MdPeople size={20} />,    path: '/buyers' },
-  { label: 'Products',  icon: <MdInventory2 size={20} />,path: '/products' },
+  { label: 'Base Products',  icon: <MdInventory2 size={20} />,path: '/products' },
+  { label: 'Products Per Buyer', icon: <MdCategory size={20} />, path: '/products-per-buyer' },
   { label: 'Generate Bill',icon:<MdPointOfSale size={20} />, path: '/generate-bill' },
 ]
 
@@ -65,7 +66,7 @@ function Sidebar({ isOpen, onClose }) {
       {/* Logout */}
       <div className="px-3 pb-5">
         <button
-          onClick={() => { navigate('/login'); onClose?.() }}
+          onClick={() => { navigate('/'); onClose?.() }}
           className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
         >
           <MdLogout size={20} />

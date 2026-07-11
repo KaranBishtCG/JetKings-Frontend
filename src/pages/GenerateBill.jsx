@@ -23,8 +23,15 @@ function GenerateBill() {
   const [selectedBuyer, setSelectedBuyer] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState(ALL_CATEGORY)
   const [downloading, setDownloading]     = useState(false)
+  const [printing, setPrinting] = useState(false)
 
   const invoiceRef = useRef(null)
+
+  useEffect(() => {
+    const handleAfterPrint = () => setPrinting(false)
+    window.addEventListener('afterprint', handleAfterPrint)
+    return () => window.removeEventListener('afterprint', handleAfterPrint)
+  }, [])
 
   useEffect(() => {
     dispatch(fetchCategories())
@@ -51,6 +58,34 @@ function GenerateBill() {
         price: product.effectivePrice ?? product.price ?? 0,
       }
       return [...prev, { ...normalized, qty: 1 }]
+    })
+  }
+
+  const setProductQty = (product, nextQty) => {
+    const safeQty = Math.max(0, Number(nextQty) || 0)
+
+    setBillItems((prev) => {
+      const existing = prev.find((i) => i.id === product.id)
+
+      if (safeQty === 0) {
+        return prev.filter((i) => i.id !== product.id)
+      }
+
+      if (existing) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, qty: safeQty }
+            : item
+        )
+      }
+
+      const normalized = {
+        ...product,
+        name: product.modelName ?? product.name,
+        price: product.effectivePrice ?? product.price ?? 0,
+      }
+
+      return [...prev, { ...normalized, qty: safeQty }]
     })
   }
 
@@ -107,6 +142,13 @@ function GenerateBill() {
     }
   }
 
+  const handlePrintInvoice = () => {
+    setPrinting(true)
+    setTimeout(() => {
+      window.print()
+    }, 0)
+  }
+
   return (
     <div className="w-full max-w-[1180px] mx-auto text-slate-800">
       <BillHeader />
@@ -117,7 +159,14 @@ function GenerateBill() {
           <BuyerSelect value={selectedBuyer} onChange={setSelectedBuyer} />
           <CategoryFilter categories={allCategories} selected={selectedCategory} onChange={setSelectedCategory} />
           {/* key resets pagination whenever the category filter changes */}
-          <ProductList key={selectedCategory.id} products={products} productsLoading={productsLoading} billItems={billItems} onAdd={addToBill} />
+          <ProductList
+            key={selectedCategory.id}
+            products={products}
+            productsLoading={productsLoading}
+            billItems={billItems}
+            onAdd={addToBill}
+            onSetQty={setProductQty}
+          />
           <BillItemsTable billItems={billItems} onUpdateQty={updateQty} onRemove={removeItem} />
         </div>
 
@@ -127,6 +176,7 @@ function GenerateBill() {
             subtotal={subtotal} gst={gst} total={total}
             selectedBuyer={selectedBuyer?.partyName ?? ''}
             onDownloadPdf={handleDownloadPdf}
+            onPrintInvoice={handlePrintInvoice}
             downloading={downloading}
           />
           <InvoicePreview billItems={billItems} selectedBuyer={selectedBuyer?.partyName ?? ''} subtotal={subtotal} gst={gst} total={total} />
@@ -136,9 +186,15 @@ function GenerateBill() {
       {/* Hidden invoice used for PDF capture */}
       <div className="fixed -left-[9999px] top-0 w-[794px]" aria-hidden="true">
         <div ref={invoiceRef}>
-          <InvoiceTemplate invoice={invoiceData} />
+          <InvoiceTemplate invoice={invoiceData} showSignature />
         </div>
       </div>
+
+      {printing && (
+        <div className="print-only">
+          <InvoiceTemplate invoice={invoiceData} showSignature={false} />
+        </div>
+      )}
     </div>
   );
 }

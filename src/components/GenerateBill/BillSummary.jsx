@@ -2,7 +2,7 @@ import React from 'react'
 import { MdDownload, MdPrint, MdPerson } from 'react-icons/md'
 import { fmt } from './billData'
 
-function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, downloading }) {
+function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, onPrintInvoice, downloading }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 px-4 py-3">
@@ -43,7 +43,10 @@ function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, downl
         >
           <MdDownload size={17} /> {downloading ? 'Generating PDF…' : 'Download PDF'}
         </button>
-        <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
+        <button
+          onClick={onPrintInvoice}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+        >
           <MdPrint size={17} /> Print Invoice
         </button>
       </div>

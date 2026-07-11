@@ -1,6 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../config/axiosInstance';
 
+export const fetchBillBuyers = createAsyncThunk(
+    'generateBill/fetchBillBuyers',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get('GenerateBill/buyers');
+            return response.data.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data);
+        }
+    }
+);
+
 export const fetchCategories = createAsyncThunk(
     'generateBill/fetchCategories',
     async (_, { rejectWithValue }) => {
@@ -35,6 +47,9 @@ export const fetchProducts = createAsyncThunk(
 const generateBillSlice = createSlice({
     name: 'generateBill',
     initialState: {
+        buyers: [],
+        buyersLoading: false,
+        buyersError: null,
         categories: [],
         categoriesLoading: false,
         products: [],
@@ -44,6 +59,20 @@ const generateBillSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(fetchBillBuyers.pending, (state) => {
+                state.buyersLoading = true;
+                state.buyersError = null;
+            })
+            .addCase(fetchBillBuyers.fulfilled, (state, action) => {
+                state.buyersLoading = false;
+                state.buyers = Array.isArray(action.payload)
+                    ? action.payload
+                    : (action.payload?.items ?? []);
+            })
+            .addCase(fetchBillBuyers.rejected, (state, action) => {
+                state.buyersLoading = false;
+                state.buyersError = action.payload;
+            })
             .addCase(fetchCategories.pending, (state) => {
                 state.categoriesLoading = true;
             })

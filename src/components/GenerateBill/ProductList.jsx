@@ -3,7 +3,7 @@ import ProductCard from './ProductCard'
 import { Skeleton } from '../common/Skeleton'
 import { PER_PAGE } from './billData'
 
-function ProductList({ products, productsLoading, billItems, onAdd }) {
+function ProductList({ products, productsLoading, billItems, onAdd, onSetQty }) {
   const [page, setPage] = useState(1)
 
   const totalPages = Math.max(1, Math.ceil(products.length / PER_PAGE))
@@ -43,6 +43,7 @@ function ProductList({ products, productsLoading, billItems, onAdd }) {
                 product={product}
                 inBill={billItems.find((i) => i.id === product.id)}
                 onAdd={onAdd}
+                onSetQty={onSetQty}
               />
             ))}
       </div>
