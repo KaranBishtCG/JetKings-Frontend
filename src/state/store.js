@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-const rootReducer = (state = {}) => state;
+import buyersReducer from "./slices/BuyerSlice";
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    buyers: buyersReducer,
+  },
 });

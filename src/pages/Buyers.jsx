@@ -1,117 +1,77 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import BuyersHeader from '../components/buyers/BuyersHeader'
 import BuyersStats from '../components/buyers/BuyersStats'
 import BuyersTable from '../components/buyers/BuyersTable'
 import BuyersPagination from '../components/buyers/BuyersPagination'
-
-const ALL_BUYERS = [
-  {
-    id: 1,
-    initials: 'AK',
-    avatarBg: 'bg-[#1a2340]',
-    name: 'Aryan Kitchen & Bath',
-    type: 'Wholesale Partner',
-    gst: '27AABCU2234F1Z5',
-    phone: '+91 98765 43210',
-    address: 'Sector 12, Industrial Hub, Pune, Maharashtra',
-  },
-  {
-    id: 2,
-    initials: 'MS',
-    avatarBg: 'bg-teal-600',
-    name: 'Modern Sanitary Store',
-    type: 'Retail Client',
-    gst: '07AACR93875G2Z1',
-    phone: '+91 98822 17700',
-    address: 'Main Market Road, Lajpat Nagar, Delhi',
-  },
-  {
-    id: 3,
-    initials: 'BP',
-    avatarBg: 'bg-purple-600',
-    name: 'Blue Pearl Ceramics',
-    type: 'Contractor',
-    gst: '24AAHCB12239D1Z4',
-    phone: '+91 77711 99533',
-    address: 'Ring Road, GIDC Estate, Morbi, Gujarat',
-  },
-  {
-    id: 4,
-    initials: 'EC',
-    avatarBg: 'bg-gray-600',
-    name: 'Elite Chrome Fittings',
-    type: 'Distributor',
-    gst: '33AABI44556L1Z9',
-    phone: '+91 91234 56789',
-    address: 'Ambattur Industrial Estate, Chennai',
-  },
-  {
-    id: 5,
-    initials: 'RH',
-    avatarBg: 'bg-orange-500',
-    name: 'Royal Hardware Depot',
-    type: 'Wholesale Partner',
-    gst: '06AAACR3504C1ZI',
-    phone: '+91 99001 23456',
-    address: 'Okhla Industrial Area, Phase II, New Delhi',
-  },
-  {
-    id: 6,
-    initials: 'ST',
-    avatarBg: 'bg-blue-500',
-    name: 'Sunrise Tiles & Bath',
-    type: 'Retail Client',
-    gst: '29AABCS3254N1ZP',
-    phone: '+91 80123 45678',
-    address: 'Rajajinagar, Bengaluru, Karnataka',
-  },
-  {
-    id: 7,
-    initials: 'PM',
-    avatarBg: 'bg-rose-600',
-    name: 'Pioneer Marble Works',
-    type: 'Contractor',
-    gst: '08AAACR2533G1ZE',
-    phone: '+91 94111 22334',
-    address: 'MI Road, Jaipur, Rajasthan',
-  },
-  {
-    id: 8,
-    initials: 'DF',
-    avatarBg: 'bg-indigo-600',
-    name: 'Delta Faucets India',
-    type: 'Distributor',
-    gst: '36AABCD4512H1ZK',
-    phone: '+91 40234 56789',
-    address: 'Begumpet, Hyderabad, Telangana',
-  },
-]
-
-const PER_PAGE = 4
+import AddBuyerModal from '../components/buyers/AddBuyerModal'
+import ViewBuyerModal from '../components/buyers/ViewBuyerModal'
+import EditBuyerModal from '../components/buyers/EditBuyerModal'
+import DeleteBuyerModal from '../components/buyers/DeleteBuyerModal'
+import { getAllBuyers } from '../state/slices/BuyerSlice'
 
 function Buyers() {
-  const [page, setPage] = useState(1)
+  const dispatch = useDispatch()
+  const { items, totalCount, page, pageSize, totalPages, loading, error } = useSelector(
+    (state) => state.buyers
+  )
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [viewBuyerId, setViewBuyerId] = useState(null)
+  const [editBuyer, setEditBuyer] = useState(null)
+  const [deleteBuyer, setDeleteBuyer] = useState(null)
 
-  const totalPages = Math.ceil(ALL_BUYERS.length / PER_PAGE)
-  const paginated = ALL_BUYERS.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+  useEffect(() => {
+    dispatch(getAllBuyers({ page, pageSize }))
+  }, [dispatch, page, pageSize])
+
+  const handlePageChange = (newPage) => {
+    dispatch(getAllBuyers({ page: newPage, pageSize }))
+  }
 
   return (
     <div>
-      <BuyersHeader onAddBuyer={() => {}} />
+      <BuyersHeader onAddBuyer={() => setShowAddModal(true)} />
+
+      {showAddModal && (
+        <AddBuyerModal onClose={() => setShowAddModal(false)} />
+      )}
+
+      {viewBuyerId !== null && (
+        <ViewBuyerModal buyerId={viewBuyerId} onClose={() => setViewBuyerId(null)} />
+      )}
+
+      {editBuyer !== null && (
+        <EditBuyerModal buyer={editBuyer} onClose={() => setEditBuyer(null)} />
+      )}
+
+      {deleteBuyer !== null && (
+        <DeleteBuyerModal buyer={deleteBuyer} onClose={() => setDeleteBuyer(null)} />
+      )}
+
       <BuyersStats />
-      <BuyersTable
-        buyers={paginated}
-        onView={(b) => console.log('View', b)}
-        onEdit={(b) => console.log('Edit', b)}
-        onDelete={(b) => console.log('Delete', b)}
-      />
-      <BuyersPagination
-        currentPage={page}
-        totalPages={totalPages}
-        total={1248}
-        perPage={PER_PAGE}
-        onPageChange={setPage}
-      />
+      {loading && (
+        <p className="text-center py-8 text-gray-500">Loading buyers...</p>
+      )}
+      {error && (
+        <p className="text-center py-8 text-red-500">Failed to load buyers.</p>
+      )}
+      {!loading && !error && (
+        <>
+          <BuyersTable
+            buyers={items}
+            onView={(b) => setViewBuyerId(b.id)}
+            onEdit={(b) => setEditBuyer(b)}
+            onDelete={(b) => setDeleteBuyer(b)}
+          />
+          <BuyersPagination
+            currentPage={page}
+            totalPages={totalPages}
+            total={totalCount}
+            perPage={pageSize}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
     </div>
   )
 }
