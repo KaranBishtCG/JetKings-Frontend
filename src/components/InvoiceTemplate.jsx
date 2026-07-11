@@ -2,10 +2,12 @@ import logo from "../assets/designer.png";
 import signature from "../assets/signature.png";
 
 export default function InvoiceTemplate({ invoice }) {
-  const totalAmount = invoice.items.reduce(
+  const subtotal = invoice.items.reduce(
     (sum, item) => sum + item.qty * item.price,
     0
   );
+  const gst   = subtotal * 0.05;
+  const total = subtotal + gst;
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white border border-gray-300 rounded-md">
@@ -97,15 +99,29 @@ export default function InvoiceTemplate({ invoice }) {
           ))}
 
           <tr className="font-semibold">
-            <td
-              colSpan="5"
-              className="border p-2 text-right"
-            >
+            <td colSpan="5" className="border p-2 text-right">
+              Subtotal
+            </td>
+            <td className="border p-2 text-right">
+              ₹{subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            </td>
+          </tr>
+
+          <tr>
+            <td colSpan="5" className="border p-2 text-right">
+              GST (5%)
+            </td>
+            <td className="border p-2 text-right">
+              ₹{gst.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            </td>
+          </tr>
+
+          <tr className="font-bold bg-gray-50">
+            <td colSpan="5" className="border p-2 text-right">
               Total
             </td>
-
             <td className="border p-2 text-right">
-              ₹{totalAmount}
+              ₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </td>
           </tr>
         </tbody>
@@ -121,8 +137,9 @@ export default function InvoiceTemplate({ invoice }) {
           />
 
           <p className="font-semibold mt-2">
-            Authorized Signatory
+            For JetKings Sanitary
           </p>
+          <p className="text-sm text-gray-500">Authorized Signatory</p>
         </div>
       </div>
     </div>

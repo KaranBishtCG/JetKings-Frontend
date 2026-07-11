@@ -8,6 +8,7 @@ import AddBuyerModal from '../components/buyers/AddBuyerModal'
 import ViewBuyerModal from '../components/buyers/ViewBuyerModal'
 import EditBuyerModal from '../components/buyers/EditBuyerModal'
 import DeleteBuyerModal from '../components/buyers/DeleteBuyerModal'
+import { SkeletonTable } from '../components/common/Skeleton'
 import { getAllBuyers } from '../state/slices/BuyerSlice'
 
 function Buyers() {
@@ -50,7 +51,13 @@ function Buyers() {
 
       <BuyersStats />
       {loading && (
-        <p className="text-center py-8 text-gray-500">Loading buyers...</p>
+        <div className="bg-white shadow-sm border border-gray-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] text-sm">
+              <SkeletonTable rows={5} cols={5} avatar={true} />
+            </table>
+          </div>
+        </div>
       )}
       {error && (
         <p className="text-center py-8 text-red-500">Failed to load buyers.</p>

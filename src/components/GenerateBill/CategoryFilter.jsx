@@ -10,15 +10,15 @@ function CategoryFilter({ categories, selected, onChange }) {
       <div className="flex flex-wrap gap-2">
         {categories.map((cat) => (
           <button
-            key={cat}
+            key={cat.id ?? 'all'}
             onClick={() => onChange(cat)}
             className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
-              selected === cat
+              selected?.id === cat.id
                 ? 'border-blue-600 bg-blue-600 text-white'
                 : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-blue-300 hover:text-blue-600'
             }`}
           >
-            {cat}
+            {cat.name}
           </button>
         ))}
       </div>
