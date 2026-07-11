@@ -1,4 +1,6 @@
 import InvoiceTemplate from "../components/InvoiceTemplate";
+import html2pdf from "html2pdf.js";
+import { useRef } from "react";
 
 export default function Invoice() {
   const invoice = {
@@ -26,6 +28,41 @@ export default function Invoice() {
       },
     ],
   };
+  const invoiceRef = useRef(null);
+  const handleDownload = () => {
+    html2pdf()
+      .set({
+        margin: 5,
+        filename: `Invoice-${invoice.invoiceNo}.pdf`,
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: {
+          unit: "mm",
+          format: "a4",
+          orientation: "portrait",
+        },
+      })
+      .from(invoiceRef.current)
+      .save();
+  };
 
-  return <InvoiceTemplate invoice={invoice} />;
+  
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+  {/* Actions */}
+  <div className="mb-6 flex justify-end">
+    <button
+      onClick={handleDownload}
+      className="rounded-full bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700"
+    >
+      Download Invoice
+    </button>
+  </div>
+
+  {/* Invoice */}
+  <div ref={invoiceRef}>
+  <InvoiceTemplate invoice={invoice} />
+</div>
+</div>
+  );
 }

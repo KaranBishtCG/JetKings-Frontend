@@ -8,7 +8,8 @@ import {
   MdShoppingCartCheckout,
   MdPerson,
 } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const GST_RATE = 0.05;
 
 const PRODUCTS = [
@@ -54,7 +55,7 @@ function GenerateBill() {
 
       if (existing) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, qty: i.qty + 1 } : i
+          i.id === product.id ? { ...i, qty: i.qty + 1 } : i,
         );
       }
 
@@ -65,10 +66,8 @@ function GenerateBill() {
   const updateQty = (id, delta) => {
     setBillItems((prev) =>
       prev.map((i) =>
-        i.id === id
-          ? { ...i, qty: Math.max(1, i.qty + delta) }
-          : i
-      )
+        i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i,
+      ),
     );
   };
 
@@ -78,7 +77,7 @@ function GenerateBill() {
 
   const subtotal = billItems.reduce(
     (sum, item) => sum + item.price * item.qty,
-    0
+    0,
   );
 
   const gst = subtotal * GST_RATE;
@@ -245,9 +244,7 @@ function GenerateBill() {
                     <tr key={item.id} className="border-t">
                       <td className="px-4 py-3">{item.name}</td>
 
-                      <td className="px-4 py-3">
-                        ₹{item.price.toFixed(2)}
-                      </td>
+                      <td className="px-4 py-3">₹{item.price.toFixed(2)}</td>
 
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
@@ -289,10 +286,7 @@ function GenerateBill() {
 
             {billItems.length === 0 && (
               <div className="flex h-36 flex-col items-center justify-center border-t border-slate-200 text-center">
-                <MdShoppingCartCheckout
-                  size={22}
-                  className="text-slate-300"
-                />
+                <MdShoppingCartCheckout size={22} className="text-slate-300" />
 
                 <p className="mt-2 text-sm text-slate-400">
                   Select products from the grid above to add to bill.
@@ -364,14 +358,23 @@ function GenerateBill() {
 
           {/* Invoice Preview */}
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="mb-3 flex items-center gap-2">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[11px] font-semibold text-blue-600">
-                6
-              </span>
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[11px] font-semibold text-blue-600">
+                  6
+                </span>
 
-              <h2 className="text-[15px] font-semibold uppercase tracking-wide text-blue-600">
-                Live Preview
-              </h2>
+                <h2 className="text-[15px] font-semibold uppercase tracking-wide text-blue-600">
+                  Live Preview
+                </h2>
+              </div>
+
+              <Link
+  to="/invoice"
+  className="rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+>
+  Open Full Preview
+</Link>
             </div>
 
             <div className="h-[280px] overflow-hidden rounded-lg border border-slate-200 bg-white">
@@ -386,8 +389,7 @@ function GenerateBill() {
                       address: "New Delhi",
                     },
                     customer: {
-                      name:
-                        selectedBuyer || "Walk-in Customer",
+                      name: selectedBuyer || "Walk-in Customer",
                       gstin: "",
                       address: "",
                     },
