@@ -2,7 +2,8 @@ import React from 'react'
 import { MdDownload, MdPrint, MdPerson } from 'react-icons/md'
 import { fmt } from './billData'
 
-function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, downloading }) {
+function BillSummary({ subtotal, gst, total, selectedBuyer, hasBuyer, onDownloadPdf, downloading, onPrint }) {
+  const disabledClass = 'opacity-40 cursor-not-allowed pointer-events-none'
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 px-4 py-3">
@@ -36,16 +37,27 @@ function BillSummary({ subtotal, gst, total, selectedBuyer, onDownloadPdf, downl
       </div>
 
       <div className="flex flex-col gap-3 px-4 pb-4">
-        <button
-          onClick={onDownloadPdf}
-          disabled={downloading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
-        >
-          <MdDownload size={17} /> {downloading ? 'Generating PDF…' : 'Download PDF'}
-        </button>
-        <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
-          <MdPrint size={17} /> Print Invoice
-        </button>
+        <div className={!hasBuyer ? disabledClass : ''}>
+          <button
+            onClick={onDownloadPdf}
+            disabled={downloading || !hasBuyer}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          >
+            <MdDownload size={17} /> {downloading ? 'Generating PDF…' : 'Download PDF'}
+          </button>
+        </div>
+        <div className={!hasBuyer ? disabledClass : ''}>
+          <button
+            onClick={onPrint}
+            disabled={!hasBuyer}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          >
+            <MdPrint size={17} /> Print Invoice
+          </button>
+        </div>
+        {!hasBuyer && (
+          <p className="text-center text-xs text-amber-600">Select a buyer to enable download &amp; print</p>
+        )}
       </div>
     </div>
   )

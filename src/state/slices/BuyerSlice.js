@@ -61,6 +61,18 @@ export const deleteBuyer = createAsyncThunk(
     }
 );
 
+export const fetchBuyersSummary = createAsyncThunk(
+    'buyers/fetchBuyersSummary',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get('Dashboard/buyers-summary');
+            return response.data.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data);
+        }
+    }
+);
+
 export const loadDropdownBuyers = createAsyncThunk(
     'buyers/loadDropdownBuyers',
     async ({ page = 1, pageSize = 10 } = {}, { rejectWithValue }) => {
@@ -98,6 +110,8 @@ const buyerSlice = createSlice({
         dropdownPage: 0,
         dropdownTotalPages: 1,
         loadingMore: false,
+        summary: null,
+        summaryLoading: false,
     },
     reducers: {
         resetCreateStatus(state) {
@@ -207,6 +221,16 @@ const buyerSlice = createSlice({
             })
             .addCase(loadDropdownBuyers.rejected, (state) => {
                 state.loadingMore = false;
+            })
+            .addCase(fetchBuyersSummary.pending, (state) => {
+                state.summaryLoading = true;
+            })
+            .addCase(fetchBuyersSummary.fulfilled, (state, action) => {
+                state.summaryLoading = false;
+                state.summary = action.payload;
+            })
+            .addCase(fetchBuyersSummary.rejected, (state) => {
+                state.summaryLoading = false;
             });
     },
 });
