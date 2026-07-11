@@ -4,9 +4,9 @@ import Layout from './layout/Layout';
 import Home from './pages/Home';
 import Buyers from './pages/Buyers';
 import Products from './pages/Products';
+import GenerateBill from './pages/GenerateBill';
 import Login from './pages/Login';
 import Invoice from "./pages/Invoice";
-import GenerateBill from './pages/GenerateBill';
 
 function App() {
   return (

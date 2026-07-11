@@ -54,12 +54,17 @@ function GenerateBill() {
     })
   }
 
-  const updateQty = (id, delta) =>
+  const updateQty = (id, delta) => {
     setBillItems((prev) =>
-      prev.map((i) => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i)
-    )
+      prev.map((i) =>
+        i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i,
+      ),
+    );
+  };
 
-  const removeItem = (id) => setBillItems((prev) => prev.filter((i) => i.id !== id))
+  const removeItem = (id) => {
+    setBillItems((prev) => prev.filter((i) => i.id !== id));
+  };
 
   const subtotal = billItems.reduce((sum, i) => sum + i.price * i.qty, 0)
   const gst      = subtotal * GST_RATE
@@ -135,7 +140,7 @@ function GenerateBill() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default GenerateBill
+export default GenerateBill;
