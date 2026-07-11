@@ -27,4 +27,4 @@ jobs:
           aws-region: us-east-1
 
       - run: |
-          aws s3 sync dist/ s3://jetkings-frontend --delete
+          aws s3 sync dist/ s3://jetkings-react-bucket --delete
