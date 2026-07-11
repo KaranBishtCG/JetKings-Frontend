@@ -1,4 +1,4 @@
-import logo from "../assets/designer.png";
+import logo from "../assets/Designer.png";
 import signature from "../assets/signature.png";
 
 export default function InvoiceTemplate({ invoice }) {
