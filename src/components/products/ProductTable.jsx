@@ -81,6 +81,25 @@ function ProductTable({
     )
   }
 
+  const categoryId = [1,2,3,4];
+
+  //show category name instead of category id
+  // if product.categoryId is 1, show taps, if 2,show showers, if 3 show wash-basin and if 4 show Drain cover
+  const getCategoryName = (categoryId) => {
+    switch (categoryId) {
+      case 1:
+        return 'Taps';
+      case 2:
+        return 'Showers'; 
+      case 3:
+        return 'Wash Basin';
+      case 4:
+        return 'Drain Cover';
+      default:
+        return 'Unknown';
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -111,7 +130,7 @@ function ProductTable({
               </td>
               <td className="px-6 py-4">
                 <p className="font-semibold text-slate-900">{product.name}</p>
-                <p className="mt-0.5 text-xs text-slate-400">{product.sku}</p>
+                <p className="mt-0.5 text-xs text-slate-400">{getCategoryName(product.categoryId)}</p>
               </td>
               <td className="px-6 py-4 text-slate-700">{formatCurrency(product.defaultPrice)}</td>
               {showBuyerPrice && (

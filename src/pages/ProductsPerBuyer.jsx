@@ -583,8 +583,8 @@ function ProductsPerBuyer() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold leading-tight text-slate-900 md:text-[42px]">Products Per Buyer</h1>
-          <p className="mt-2 text-base text-slate-500">Manage buyer specific product rates</p>
+          <h1 className="text-2xl sm:text-[36px] leading-tight font-semibold tracking-tight">Products Per Buyer</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Manage buyer specific product rates</p>
         </div>
         <button
           type="button"

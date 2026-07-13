@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../../config/axiosInstance"
 
 const BASE_URL =
   "http://ec2-13-222-99-70.compute-1.amazonaws.com:5000/api/Dashboard";
@@ -8,7 +9,7 @@ const BASE_URL =
 export const fetchDashboardSummary = createAsyncThunk(
   "dashboard/fetchSummary",
   async () => {
-    const response = await axios.get(`${BASE_URL}/summary`);
+    const response = await axiosInstance.get(`Dashboard/summary`);
     return response.data.data;
   }
 );
@@ -17,9 +18,7 @@ export const fetchDashboardSummary = createAsyncThunk(
 export const fetchRecentActivities = createAsyncThunk(
   "dashboard/fetchRecentActivities",
   async () => {
-    const response = await axios.get(
-      `${BASE_URL}/recent-activities`
-    );
+    const response = await axiosInstance.get(`Dashboard/recent-activities`);
     return response.data.data;
   }
 );

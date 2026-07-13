@@ -133,15 +133,11 @@ function GenerateBill() {
     });
   };
 
-  const updateQty = (id, delta) => {
+  const setItemQtyById = (id, nextQty) => {
+    const safeQty = Math.max(1, Number(nextQty) || 1);
     setBillItems((prev) =>
       prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              qty: Math.max(1, item.qty + delta),
-            }
-          : item
+        item.id === id ? { ...item, qty: safeQty } : item
       )
     );
   };
@@ -276,7 +272,7 @@ function GenerateBill() {
 
           <BillItemsTable
             billItems={billItems}
-            onUpdateQty={updateQty}
+            onSetQty={setItemQtyById}
             onRemove={removeItem}
           />
         </div>
