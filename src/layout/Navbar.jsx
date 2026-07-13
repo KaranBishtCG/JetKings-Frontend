@@ -14,13 +14,6 @@ function Navbar({ onToggle }) {
       </button>
       {/* Right side */}
       <div className="flex items-center gap-4 ml-auto">
-        <button className="relative text-gray-500 hover:text-blue-600 transition-colors">
-          <MdNotifications size={22} />
-          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-        </button>
-        <button className="text-gray-500 hover:text-blue-600 transition-colors">
-          <MdSettings size={22} />
-        </button>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
             A
