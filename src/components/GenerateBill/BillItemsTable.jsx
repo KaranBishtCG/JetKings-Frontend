@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdShoppingCartCheckout, MdAdd, MdRemove } from 'react-icons/md'
 
-function BillItemsTable({ billItems, onUpdateQty, onRemove }) {
+function BillItemsTable({ billItems, onSetQty, onRemove }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
       <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
@@ -42,14 +42,24 @@ function BillItemsTable({ billItems, onUpdateQty, onRemove }) {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button
-                        onClick={() => onUpdateQty(item.id, -1)}
+                        onClick={() => onSetQty(item.id, Math.max(1, item.qty - 1))}
                         className="h-6 w-6 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover:bg-slate-100"
                       >
                         <MdRemove size={12} />
                       </button>
-                      <span className="w-5 text-center font-semibold">{item.qty}</span>
+                      <input
+                        key={item.qty}
+                        type="number"
+                        min="1"
+                        defaultValue={item.qty}
+                        onBlur={(e) => {
+                          const val = Math.max(1, Number(e.target.value) || 1);
+                          onSetQty(item.id, val);
+                        }}
+                        className="h-7 w-12 rounded border border-slate-200 text-center text-xs font-semibold text-slate-700 outline-none focus:border-blue-400"
+                      />
                       <button
-                        onClick={() => onUpdateQty(item.id, 1)}
+                        onClick={() => onSetQty(item.id, item.qty + 1)}
                         className="h-6 w-6 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover:bg-slate-100"
                       >
                         <MdAdd size={12} />
