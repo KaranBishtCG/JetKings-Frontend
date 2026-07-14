@@ -81,10 +81,6 @@ function ProductTable({
     )
   }
 
-  const categoryId = [1,2,3,4];
-
-  //show category name instead of category id
-  // if product.categoryId is 1, show taps, if 2,show showers, if 3 show wash-basin and if 4 show Drain cover
   const getCategoryName = (categoryId) => {
     switch (categoryId) {
       case 1:

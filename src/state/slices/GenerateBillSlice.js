@@ -34,6 +34,8 @@ export const fetchProducts = createAsyncThunk(
                 const params = { buyerId };
                 if (categoryId) params.categoryId = categoryId;
                 response = await axiosInstance.get('GenerateBill/products', { params });
+            } else if (categoryId) {
+                response = await axiosInstance.get('Products/category', { params: { categoryId } });
             } else {
                 response = await axiosInstance.get('Products', { params: { page: 1, pageSize: 10 } });
             }
